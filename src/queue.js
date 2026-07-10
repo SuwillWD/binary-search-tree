@@ -7,8 +7,7 @@ function Queue() {
   };
 
   const dequeue = () => {
-    qArray.shift();
-    return true;
+    return qArray.shift();
   };
 
   const peek = () => {

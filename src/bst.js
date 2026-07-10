@@ -15,7 +15,7 @@ function Tree(array) {
 
   function buildTree(arr, start, end) {
     if (start > end) {
-      return;
+      return null;
     }
     let mid = Math.floor((start + end) / 2);
     let rootNode = Node();
@@ -37,9 +37,32 @@ function Tree(array) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   };
 
+  // Driver method for prettyPrint
   const print = () => prettyPrint(root);
 
-  return { print };
+  const includes = (value) => {
+    let queue = Queue();
+    queue.enqueue(root);
+    while (queue) {
+      let currNode = queue.dequeue();
+      if (!currNode) {
+        break;
+      }
+      if (currNode.data === value) {
+        return true;
+      }
+
+      if (currNode.data > value && currNode.left) {
+        queue.enqueue(currNode.left);
+      }
+      if (currNode.data < value && currNode.right) {
+        queue.enqueue(currNode.right);
+      }
+    }
+    return false;
+  };
+
+  return { print, includes };
 }
 
 export default Tree;
