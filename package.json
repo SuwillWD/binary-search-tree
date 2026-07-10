@@ -1,0 +1,25 @@
+{
+  "name": "recursion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuwillWD/recursion.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/SuwillWD/recursion/issues"
+  },
+  "homepage": "https://github.com/SuwillWD/recursion#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.29.7",
+    "jest": "^30.4.2"
+  }
+}
