@@ -1,3 +1,5 @@
+import Queue from "./queue.js";
+
 function Node() {
   const data = null;
   const left = null;
