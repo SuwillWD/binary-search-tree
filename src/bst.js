@@ -92,7 +92,69 @@ function Tree(array) {
     }
   };
 
-  return { print, includes, insert };
+  function findInorderPredecessor(node) {
+    node = node.left;
+    let inorderPredecessor = node;
+    let inorderPredecessorPrevNode = null;
+    while (inorderPredecessor && inorderPredecessor.right) {
+      inorderPredecessorPrevNode = node;
+      inorderPredecessor = inorderPredecessor.right;
+    }
+
+    return { inorderPredecessor, inorderPredecessorPrevNode };
+  }
+
+  const deleteItem = (value) => {
+    if (!includes(value)) {
+      return;
+    }
+    let queue = Queue();
+    queue.enqueue(root);
+    let currNode = null;
+    let prevNode = null;
+    while (queue) {
+      currNode = queue.dequeue();
+      if (!currNode) {
+        return;
+      }
+      if (currNode.data === value) {
+        if (!currNode.left && !currNode.right) {
+          prevNode.left === currNode
+            ? (prevNode.left = null)
+            : (prevNode.right = null);
+          return true;
+        } else if (!currNode.right) {
+          prevNode.left === currNode
+            ? (prevNode.left = currNode.left)
+            : (prevNode.right = currNode.left);
+          return true;
+        } else if (!currNode.left) {
+          prevNode.left === currNode
+            ? (prevNode.left = currNode.right)
+            : (prevNode.right = currNode.right);
+          return true;
+        } else {
+          let { inorderPredecessor, inorderPredecessorPrevNode } =
+            findInorderPredecessor(currNode);
+          let temp = currNode.data;
+          currNode.data = inorderPredecessor.data;
+          inorderPredecessor.data = temp;
+          inorderPredecessorPrevNode.right = null;
+          return true;
+        }
+      }
+      if (currNode.data > value && currNode.left) {
+        prevNode = currNode;
+        queue.enqueue(currNode.left);
+      }
+      if (currNode.data < value && currNode.right) {
+        prevNode = currNode;
+        queue.enqueue(currNode.right);
+      }
+    }
+  };
+
+  return { print, includes, insert, deleteItem };
 }
 
 export default Tree;

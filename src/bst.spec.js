@@ -13,3 +13,9 @@ it("Inserts a value in the tree", () => {
   expect(bst.insert(67)).toBe(undefined);
   expect(bst.insert(103)).toBe(true);
 });
+
+it("Deletes a value in the tree", () => {
+  expect(bst.deleteItem(324)).toBe(true);
+  expect(bst.deleteItem(23)).toBe(true);
+  expect(bst.deleteItem(110)).toBe(undefined);
+});
