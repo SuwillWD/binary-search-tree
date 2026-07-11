@@ -154,7 +154,32 @@ function Tree(array) {
     }
   };
 
-  return { print, includes, insert, deleteItem };
+  // Calls callback functions on each node in level order traversal
+  const levelOrderForEach = (callback) => {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required.");
+    }
+    let queue = Queue();
+    queue.enqueue(root);
+    while (queue) {
+      let currNode = queue.dequeue();
+      if (!currNode) return;
+      callback(currNode.data);
+      if (currNode.left) {
+        queue.enqueue(currNode.left);
+      }
+      if (currNode.right) {
+        queue.enqueue(currNode.right);
+      }
+    }
+  };
+
+  return { print, includes, insert, deleteItem, levelOrderForEach };
 }
+
+let bs = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+bs.insert(69);
+bs.insert(103);
+bs.print();
 
 export default Tree;
