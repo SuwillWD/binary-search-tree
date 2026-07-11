@@ -154,7 +154,7 @@ function Tree(array) {
     }
   };
 
-  // Calls callback functions on each node in level order traversal
+  // Calls callback function on each node in level order traversal
   const levelOrderForEach = (callback) => {
     if (typeof callback !== "function") {
       throw new Error("A callback function is required.");
@@ -174,12 +174,49 @@ function Tree(array) {
     }
   };
 
-  return { print, includes, insert, deleteItem, levelOrderForEach };
-}
+  // Calls callback funtion on each node in inorder traversal
+  const inOrderForEach = (callback, node = root) => {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required.");
+    }
+    if (!node) return;
+    inOrderForEach(callback, node.left);
+    callback(node.data);
+    inOrderForEach(callback, node.right);
+  };
 
-let bs = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-bs.insert(69);
-bs.insert(103);
-bs.print();
+  // Calls callback funtion on each node in preOrder traversal
+  const preOrderForEach = (callback, node = root) => {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required.");
+    }
+    if (!node) return;
+    callback(node.data);
+    preOrderForEach(callback, node.left);
+    preOrderForEach(callback, node.right);
+  };
+
+  // Calls callback funtion on each node in postOrder traversal
+  const postOrderForEach = (callback, node = root) => {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required.");
+    }
+    if (!node) return;
+    postOrderForEach(callback, node.left);
+    postOrderForEach(callback, node.right);
+    callback(node.data);
+  };
+
+  return {
+    print,
+    includes,
+    insert,
+    deleteItem,
+    levelOrderForEach,
+    inOrderForEach,
+    preOrderForEach,
+    postOrderForEach,
+  };
+}
 
 export default Tree;
