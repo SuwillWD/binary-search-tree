@@ -62,7 +62,37 @@ function Tree(array) {
     return false;
   };
 
-  return { print, includes };
+  const insert = (value) => {
+    if (includes(value)) {
+      return;
+    }
+    let newNode = Node();
+    newNode.data = value;
+    let queue = Queue();
+    queue.enqueue(root);
+    while (queue) {
+      let currNode = queue.dequeue();
+      if (!currNode) {
+        return;
+      }
+      if (currNode.data > value && currNode.left === null) {
+        currNode.left = newNode;
+        return true;
+      }
+      if (currNode.data < value && currNode.right === null) {
+        currNode.right = newNode;
+        return true;
+      }
+      if (currNode.data > value && currNode.left) {
+        queue.enqueue(currNode.left);
+      }
+      if (currNode.data < value && currNode.right) {
+        queue.enqueue(currNode.right);
+      }
+    }
+  };
+
+  return { print, includes, insert };
 }
 
 export default Tree;

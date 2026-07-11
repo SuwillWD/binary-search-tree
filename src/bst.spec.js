@@ -7,3 +7,9 @@ it("Checks if a value is present in the tree", () => {
   expect(bst.includes(69)).toBe(false);
   expect(bst.includes(6345)).toBe(true);
 });
+
+it("Inserts a value in the tree", () => {
+  expect(bst.insert(69)).toBe(true);
+  expect(bst.insert(67)).toBe(undefined);
+  expect(bst.insert(103)).toBe(true);
+});
