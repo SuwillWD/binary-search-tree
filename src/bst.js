@@ -174,6 +174,25 @@ function Tree(array) {
     }
   };
 
+  // Calls callback function on each node in level order traversal (Using Recursion)
+  const levelOrderForEachRecur = (callback, q = [root]) => {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required.");
+    }
+    if (q.length === 0) return;
+    let nextLevel = [];
+    for (let node of q) {
+      callback(node.data);
+      if (node.left) {
+        nextLevel.push(node.left);
+      }
+      if (node.right) {
+        nextLevel.push(node.right);
+      }
+    }
+    levelOrderForEachRecur(callback, nextLevel);
+  };
+
   // Calls callback funtion on each node in inorder traversal
   const inOrderForEach = (callback, node = root) => {
     if (typeof callback !== "function") {
@@ -213,6 +232,7 @@ function Tree(array) {
     insert,
     deleteItem,
     levelOrderForEach,
+    levelOrderForEachRecur,
     inOrderForEach,
     preOrderForEach,
     postOrderForEach,
