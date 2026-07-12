@@ -258,6 +258,22 @@ function Tree(array) {
     return traverse(valueNode, nodeHeight);
   };
 
+  const depth = (value) => {
+    if (!includes(value)) return;
+
+    const calculateDepth = (node, value, nodeDepth = 0) => {
+      if (node.data === value) {
+        return nodeDepth;
+      } else if (node.data > value) {
+        return calculateDepth(node.left, value, ++nodeDepth);
+      } else {
+        return calculateDepth(node.right, value, ++nodeDepth);
+      }
+    };
+
+    return calculateDepth(root, value);
+  };
+
   return {
     print,
     includes,
@@ -269,6 +285,7 @@ function Tree(array) {
     preOrderForEach,
     postOrderForEach,
     height,
+    depth,
   };
 }
 

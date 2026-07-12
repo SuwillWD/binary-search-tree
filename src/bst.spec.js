@@ -65,3 +65,10 @@ it("Returns the height of the node", () => {
   expect(bst.height(4)).toBe(2);
   expect(bst.height(8)).toEqual(4);
 });
+
+it("Returns the depth of the node", () => {
+  expect(bst.depth(303)).toBe(undefined);
+  expect(bst.depth(4)).toBe(1);
+  expect(bst.depth(8)).toEqual(0);
+  expect(bst.depth(103)).toEqual(4);
+});
