@@ -77,10 +77,13 @@ function Tree(array) {
       }
       if (currNode.data > value && currNode.left === null) {
         currNode.left = newNode;
+        // Rebalance the tree after insertion if it becomes unbalanced
+        if (isBalanced(root)) rebalance();
         return true;
       }
       if (currNode.data < value && currNode.right === null) {
         currNode.right = newNode;
+        if (isBalanced(root)) rebalance();
         return true;
       }
       if (currNode.data > value && currNode.left) {
@@ -122,16 +125,19 @@ function Tree(array) {
           prevNode.left === currNode
             ? (prevNode.left = null)
             : (prevNode.right = null);
+          if (isBalanced(root)) rebalance();
           return true;
         } else if (!currNode.right) {
           prevNode.left === currNode
             ? (prevNode.left = currNode.left)
             : (prevNode.right = currNode.left);
+          if (isBalanced(root)) rebalance();
           return true;
         } else if (!currNode.left) {
           prevNode.left === currNode
             ? (prevNode.left = currNode.right)
             : (prevNode.right = currNode.right);
+          if (isBalanced(root)) rebalance();
           return true;
         } else {
           let { inorderPredecessor, inorderPredecessorPrevNode } =
@@ -140,6 +146,7 @@ function Tree(array) {
           currNode.data = inorderPredecessor.data;
           inorderPredecessor.data = temp;
           inorderPredecessorPrevNode.right = null;
+          if (isBalanced(root)) rebalance();
           return true;
         }
       }
@@ -228,6 +235,7 @@ function Tree(array) {
 
   const height = (value) => {
     if (!includes(value)) return;
+    if (typeof value !== "number") return;
     let nodeHeight = 0;
     let valueNode = null;
     inOrderForEach((node) => {
@@ -274,6 +282,29 @@ function Tree(array) {
     return calculateDepth(root, value);
   };
 
+  function isBalanced() {
+    let treeIsBalanced = true;
+    inOrderForEach((node) => {
+      let leftChild = node.left?.data;
+      let rightChild = node.right?.data;
+      let leftChildHeight = height(leftChild) ?? 0;
+      let rightChildHeight = height(rightChild) ?? 0;
+      if (
+        Math.abs(leftChildHeight - rightChildHeight) !== 1 &&
+        Math.abs(leftChildHeight - rightChildHeight) !== 0
+      ) {
+        treeIsBalanced = false;
+      }
+    });
+    return treeIsBalanced;
+  }
+
+  function rebalance() {
+    let currentNodes = [];
+    inOrderForEach((node) => currentNodes.push(node.data));
+    root = buildTree(currentNodes, 0, currentNodes.length - 1);
+  }
+
   return {
     print,
     includes,
@@ -286,6 +317,8 @@ function Tree(array) {
     postOrderForEach,
     height,
     depth,
+    isBalanced,
+    rebalance,
   };
 }
 
