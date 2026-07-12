@@ -164,7 +164,7 @@ function Tree(array) {
     while (queue) {
       let currNode = queue.dequeue();
       if (!currNode) return;
-      callback(currNode.data);
+      callback(currNode);
       if (currNode.left) {
         queue.enqueue(currNode.left);
       }
@@ -182,7 +182,7 @@ function Tree(array) {
     if (q.length === 0) return;
     let nextLevel = [];
     for (let node of q) {
-      callback(node.data);
+      callback(node);
       if (node.left) {
         nextLevel.push(node.left);
       }
@@ -200,7 +200,7 @@ function Tree(array) {
     }
     if (!node) return;
     inOrderForEach(callback, node.left);
-    callback(node.data);
+    callback(node);
     inOrderForEach(callback, node.right);
   };
 
@@ -210,7 +210,7 @@ function Tree(array) {
       throw new Error("A callback function is required.");
     }
     if (!node) return;
-    callback(node.data);
+    callback(node);
     preOrderForEach(callback, node.left);
     preOrderForEach(callback, node.right);
   };
@@ -223,7 +223,39 @@ function Tree(array) {
     if (!node) return;
     postOrderForEach(callback, node.left);
     postOrderForEach(callback, node.right);
-    callback(node.data);
+    callback(node);
+  };
+
+  const height = (value) => {
+    if (!includes(value)) return;
+    let nodeHeight = 0;
+    let valueNode = null;
+    inOrderForEach((node) => {
+      if (node.data === value) {
+        valueNode = node;
+      }
+    });
+
+    const traverse = (node, nodeHeight) => {
+      let leftHeight = 0;
+      let rightHeight = 0;
+
+      if (!node.left && !node.right) {
+        return 0;
+      }
+
+      if (node.left) {
+        leftHeight = 1 + traverse(node.left, nodeHeight);
+      }
+      if (node.right) {
+        rightHeight = 1 + traverse(node.right, nodeHeight);
+      }
+
+      nodeHeight = leftHeight >= rightHeight ? leftHeight : rightHeight;
+      return nodeHeight;
+    };
+
+    return traverse(valueNode, nodeHeight);
   };
 
   return {
@@ -236,6 +268,7 @@ function Tree(array) {
     inOrderForEach,
     preOrderForEach,
     postOrderForEach,
+    height,
   };
 }
 
